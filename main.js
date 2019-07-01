@@ -1,7 +1,7 @@
 const list = ['Apron', 'Belt','Cardigan','Dress','Earrings','Fur coat','Gloves','Hat'];
 const nodes = list.map((item) => `<span>${item}<button class='unactive'>edit</button></span>`);
 
-let initialState = {
+const initialState = {
   items: list,
   nodes: nodes
 }
@@ -99,16 +99,16 @@ function render() {
 
     if (input) {
       input.focus();
-      input.addEventListener('blur', (e) => {
+      input.addEventListener('blur', () => {
         store.dispatch({
           type: 'blur'
         });
       });
-      input.addEventListener('keydown', (e) => {
-        if (e.keyCode === 13) {
+      input.addEventListener('keydown', (event) => {
+        if (event.keyCode === 13) {
           store.dispatch({
             type: 'enter',
-            title: e.target.value,
+            title: event.target.value,
             index: store.getState().nodes.indexOf(item)
           });
         }
