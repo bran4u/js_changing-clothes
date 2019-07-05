@@ -1,23 +1,25 @@
 const list = ['Apron', 'Belt','Cardigan','Dress','Earrings','Fur coat','Gloves','Hat'];
 const nodes = list.map((item) => `<span>${item}<button class='unactive'>edit</button></span>`);
 
-const EDIT = {
-  type: 'edit',
-  title: null,
-  index: null
+const edit = (title, index) => {
+  return {
+    type: 'edit',
+    title,
+    index
+  }
+}
+
+const enter = (title, index) => {
+  return {
+    type: 'enter',
+    title,
+    index
+  }
 }
 
 const BLUR = {
   type: 'blur'
 }
-
-const ENTER = {
-  type: 'enter',
-  title: null,
-  index: null
-}
-
-
 
 const initialState = {
   items: list,
@@ -107,9 +109,7 @@ function render() {
         li.querySelector('button').classList.toggle('unactive');
       });
       button.addEventListener('click', () => {
-        EDIT.title = item;
-        EDIT.index = store.getState().nodes.indexOf(item);
-        store.dispatch(EDIT);
+        store.dispatch(edit(item, store.getState().nodes.indexOf(item)));
       });
     }
 
@@ -120,9 +120,7 @@ function render() {
       });
       input.addEventListener('keydown', (event) => {
         if (event.keyCode === 13) {
-          ENTER.title = event.target.value;
-          ENTER.index = store.getState().nodes.indexOf(item);
-          store.dispatch(ENTER);
+          store.dispatch(enter(event.target.value, store.getState().nodes.indexOf(item)));
         }
       });
     }
