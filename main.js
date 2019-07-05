@@ -1,6 +1,24 @@
 const list = ['Apron', 'Belt','Cardigan','Dress','Earrings','Fur coat','Gloves','Hat'];
 const nodes = list.map((item) => `<span>${item}<button class='unactive'>edit</button></span>`);
 
+const EDIT = {
+  type: 'edit',
+  title: null,
+  index: null
+}
+
+const BLUR = {
+  type: 'blur'
+}
+
+const ENTER = {
+  type: 'enter',
+  title: null,
+  index: null
+}
+
+
+
 const initialState = {
   items: list,
   nodes: nodes
@@ -76,9 +94,9 @@ function render() {
   for (let item of store.getState().nodes) {
     const li = document.createElement('li');
     li.insertAdjacentHTML('beforeend', item);
-    let span = li.querySelector('span');
-    let button = li.querySelector('button');
-    let input = li.querySelector('input');
+    const span = li.querySelector('span');
+    const button = li.querySelector('button');
+    const input = li.querySelector('input');
     list.append(li);
    
     if (span && !inputPresent) {
@@ -88,29 +106,23 @@ function render() {
       span.addEventListener('mouseleave', () => {
         li.querySelector('button').classList.toggle('unactive');
       });
-      button.addEventListener('click', (e) => {
-        store.dispatch({
-          type: 'edit',
-          title: item,
-          index: store.getState().nodes.indexOf(item)
-        });
+      button.addEventListener('click', () => {
+        EDIT.title = item;
+        EDIT.index = store.getState().nodes.indexOf(item);
+        store.dispatch(EDIT);
       });
     }
 
     if (input) {
       input.focus();
       input.addEventListener('blur', () => {
-        store.dispatch({
-          type: 'blur'
-        });
+        store.dispatch(BLUR);
       });
       input.addEventListener('keydown', (event) => {
         if (event.keyCode === 13) {
-          store.dispatch({
-            type: 'enter',
-            title: event.target.value,
-            index: store.getState().nodes.indexOf(item)
-          });
+          ENTER.title = event.target.value;
+          ENTER.index = store.getState().nodes.indexOf(item);
+          store.dispatch(ENTER);
         }
       });
     }
