@@ -1,5 +1,3 @@
-https://gitkurmax.github.io/js_changing-clothes/
-
 # Changing clothes
 
 Here are 8 items of clothing: 
